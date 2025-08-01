@@ -7,14 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  test-suite:
+  test_suite:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Python 3.9
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: 3.9
     
@@ -28,15 +28,15 @@ jobs:
         cd src
         python -m pytest ../tests/ -v
 
-  train-and-quantize:
-    needs: test-suite
+  train_and_quantize:
+    needs: test_suite
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Python 3.9
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: 3.9
     
@@ -56,20 +56,20 @@ jobs:
         python quantize.py
     
     - name: Upload model artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: trained-models
         path: models/
 
-  build-and-test-container:
-    needs: train-and-quantize
+  build_and_test_container:
+    needs: train_and_quantize
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Download model artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: trained-models
         path: models/
